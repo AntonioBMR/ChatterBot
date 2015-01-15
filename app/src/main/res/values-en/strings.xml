@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Talking to Forever Alone</string>
+    <string name="etHint">write or record a message</string>
+    <string name="habla">Speak now</string>
+    <string name="vacio">it´s empty</string>
+    <string name="conversar">CHAT</string>
+    <string name="dictar">RECORD</string>
+    <string name="action_settings"></string>
+    <string name="sp">Spanish</string>
+    <string name="ing">English</string>
+    <string name="tono">-tone+</string>
+    <string name="velocidad">-speed+</string>
+
+</resources>
