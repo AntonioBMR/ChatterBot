@@ -2,6 +2,7 @@ package com.antonio.android.sintesisvoz;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -40,6 +41,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     private int tono;
     private RadioButton esp;
     private RadioButton eng;
+    private Button bt1,bt2;
     private TextView tv;
 
     @Override
@@ -63,8 +65,16 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         et.setHint(R.string.etHint);
         esp=(RadioButton)findViewById(R.id.rbEsp);
         eng=(RadioButton)findViewById(R.id.rbEng);
+        bt1=(Button)findViewById(R.id.btConversar);
+        bt2=(Button)findViewById(R.id.btDictar);
         tv=(TextView)findViewById(R.id.textView);
-
+        if(bt1.getText().toString().equalsIgnoreCase("CONVERSAR")){
+            esp.setChecked(true);
+            eng.setChecked(false);
+        }else{
+            eng.setChecked(true);
+            esp.setChecked(false);
+        }
         seekBarV = (SeekBar) findViewById(R.id.seekBarV);
         seekBarT = (SeekBar) findViewById(R.id.seekBarT);
         seekBarV.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -80,11 +90,9 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if(progress>=1){
                     velocidad=progress ;
-
                 }else{
                     velocidad=1;
                 }
-
             }
         });
         seekBarT.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -100,7 +108,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if(progress>=1){
                     tono=progress ;
-
                 }else{
                     tono=1;
                 }
@@ -112,7 +119,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         protected void onPreExecute() {
             super.onPreExecute();
             if(et.getText().toString().isEmpty()){
-                tostada("escriba o dicte ");
+                tostada(getResources().getString(R.string.etHint));
                 cancel(true);
             }else {
                 String s= et.getText().toString();
@@ -144,14 +151,12 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             } catch (Exception ex) {
                 System.out.println("error al contestar "+ex);
             }
-
             if(respuesta.isEmpty()){
                 respuesta= String.valueOf(R.string.vacio);
             }
             if(reproductor==true){
                 if(!tts.isSpeaking()) {
                     tts.speak(respuesta, TextToSpeech.QUEUE_FLUSH, null);
-
                 }
             }
             return null;
@@ -174,11 +179,9 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             Date date = cal.getTime();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             String fecha = df.format(date);
-            conversacion="Respuesta "+System.getProperty("line.separator")+respuesta+System.getProperty("line.separator")+fecha+System.getProperty("line.separator");
+            conversacion="ChatBot"+System.getProperty("line.separator")+respuesta+System.getProperty("line.separator")+fecha+System.getProperty("line.separator");
             tv.append(conversacion);
-
         }
-
         @Override
         protected void onCancelled() {
             super.onCancelled();
@@ -189,8 +192,6 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             super.onCancelled(s);
         }
     }
-
-
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
@@ -202,9 +203,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             //no se puede reproducir
         }
         Log.v("¿Funciona?", reproductor + "");
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -235,7 +234,28 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             tts = null;
         }
     }
-
+    public void ing(View v){
+        String languageToLoad  = "en_EN";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        this.getResources().updateConfiguration(config,this.getResources().getDisplayMetrics());
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+    public void esp(View v){
+        String languageToLoad  = "es_ES";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        this.getResources().updateConfiguration(config,this.getResources().getDisplayMetrics());
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
     public void hablar(View v) {
         HiloFacil hf=new HiloFacil();
         hf.execute();

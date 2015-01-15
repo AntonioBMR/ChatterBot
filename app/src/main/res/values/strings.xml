@@ -3,9 +3,14 @@
 
     <string name="app_name">Talking to Forever Alone</string>
     <string name="etHint">escriba o dicte un mensaje</string>
-    <string name="respuest">Respuesta:</string>
     <string name="habla">hable ahora</string>
+    <string name="conversar">CONVERSAR</string>
+    <string name="dictar">DICTAR</string>
     <string name="vacio">esta vacio</string>
     <string name="action_settings"></string>
+    <string name="sp">Español</string>
+    <string name="ing">Inglés</string>
+    <string name="tono">-tono+</string>
+    <string name="velocidad">-velocidad+</string>
 
 </resources>
